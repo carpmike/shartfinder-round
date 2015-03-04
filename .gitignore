@@ -3,3 +3,12 @@ build/
 
 # Ignore Gradle GUI config
 gradle-app.setting
+/bin/
+
+#eclipse crap
+.classpath
+.project
+.settings/
+
+#mac junk
+**/.DS_Store
