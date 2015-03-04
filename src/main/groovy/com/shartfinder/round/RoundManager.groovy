@@ -2,8 +2,6 @@ package com.shartfinder.round
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.apple.laf.AquaBorder.Default;
-
 import groovy.json.JsonSlurper
 
 class RoundManager {
