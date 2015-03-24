@@ -32,17 +32,7 @@ public class Receiver {
 				break
 			case Application.TOPIC_TURN_FINISHED:
 				// finish the turn
-				def turnFinished = reifyJson(message)
-				this.roundManager.finishTurn(turnFinished.encounterId)
-				def round = this.roundManager.findRoundByEncounterId(turnFinished.encounterId)
-				LOGGER.info("Next round: " + round)
-				if (round.isNewRound()) {
-					redisTemplate.convertAndSend(Application.TOPIC_ROUND_STARTED, "{\"encounterId\":${round.encounterId},\"roundNumber\":${round.roundNumber}}".toString())
-				}
-				// then start the next turn (turn started event)
-				def combatantAndUser = roundManager.getCurrentTurnUserAndCombatant(turnFinished.encounterId)
-				redisTemplate.convertAndSend(Application.TOPIC_TURN_STARTED, "{\"encounterId\":${round.encounterId},\"userId\":\"${combatantAndUser.userId}\",\"combatantName\":\"${combatantAndUser.combatantName}\"}".toString())
-				LOGGER.info("Turn finished action")
+				handleTurnFinished(message)
 				break
 		}
         latch.countDown()
@@ -59,6 +49,20 @@ public class Receiver {
 		LOGGER.info("Initiative created action")
 	}
 	
+	private handleTurnFinished(String message) {
+		def turnFinished = reifyJson(message)
+		this.roundManager.finishTurn(turnFinished.encounterId)
+		def round = this.roundManager.findRoundByEncounterId(turnFinished.encounterId)
+		LOGGER.info("Next round: " + round)
+		if (round.isNewRound()) {
+			redisTemplate.convertAndSend(Application.TOPIC_ROUND_STARTED, "{\"encounterId\":${round.encounterId},\"roundNumber\":${round.roundNumber}}".toString())
+		}
+		// then start the next turn (turn started event)
+		def combatantAndUser = roundManager.getCurrentTurnUserAndCombatant(turnFinished.encounterId)
+		redisTemplate.convertAndSend(Application.TOPIC_TURN_STARTED, "{\"encounterId\":${round.encounterId},\"userId\":\"${combatantAndUser.userId}\",\"combatantName\":\"${combatantAndUser.combatantName}\"}".toString())
+		LOGGER.info("Turn finished action")
+	}
+
 	private reifyJson(String message) {
 		def jsonSlurper = new JsonSlurper() //jsonslurper is not thread safe so create a new one each time since this is a singleton
 		def jsonObject = jsonSlurper.parseText(message)

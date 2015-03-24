@@ -19,7 +19,12 @@ class RoundManager {
 	public Round saveRoundFromInitiativeInfo(initiativeCreated) {
 		def round = new Round()
 		round.encounterId = initiativeCreated.encounterId
-		round.combatantsInTurnOrder = initiativeCreated.orderedCombatantIds
+		// convert combatants to a list
+		def combatants = []
+		initiativeCreated.orderedCombatants.each { k,v ->
+			combatants.add(v)
+		}
+		round.combatantsInTurnOrder = combatants
 		
 		this.activeRounds.put(round.encounterId, round)
 		
