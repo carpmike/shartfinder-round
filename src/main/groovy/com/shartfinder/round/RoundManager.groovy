@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import groovy.json.JsonSlurper
 
 class RoundManager {
-	private Map<BigInteger, Round> activeRounds
+	private Map<String, Round> activeRounds
 	
 	@Autowired
 	public RoundManager() {
-		this.activeRounds = new HashMap<BigInteger, Round>()
+		this.activeRounds = new HashMap<String, Round>()
 	}
 	
-	public Round findRoundByEncounterId(BigInteger encounterId) {
+	public Round findRoundByEncounterId(String encounterId) {
 		return this.activeRounds.get(encounterId)
 	}
 	
@@ -31,12 +31,12 @@ class RoundManager {
 		return round
 	}
 	
-	public Map getCurrentTurnUserAndCombatant(BigInteger encounterId) {
+	public Map getCurrentTurnUserAndCombatant(String encounterId) {
 		def round = this.activeRounds.get(encounterId)
 		return round.combatantsInTurnOrder.get(round.currentTurnIndex)
 	}
 	
-	public void finishTurn(BigInteger encounterId) {
+	public void finishTurn(String encounterId) {
 		def round = this.findRoundByEncounterId(encounterId)
 		// if at the end of the turns (and thus at the end of the round), set the turn index back to the beginning
 		if (round.currentTurnIndex + 1 == round.combatantsInTurnOrder.size()) {

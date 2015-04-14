@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 class Round {
 	@Id BigInteger id
-	BigInteger encounterId
+	String encounterId
 	Integer roundNumber = 1
 	Integer currentTurnIndex = 0
 	List combatantsInTurnOrder

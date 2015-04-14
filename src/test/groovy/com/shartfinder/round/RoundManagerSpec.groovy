@@ -7,9 +7,9 @@ import spock.lang.Specification
 class RoundManagerSpec extends Specification {
 	def RoundManager rm = new RoundManager()
 	def jsonSlurper = new JsonSlurper()
-	def eid = 69
+	def eid = "69AD"
 	def user1id = "Jason"
-	def initString = "{\"encounterId\": $eid, \"orderedCombatants\":{\"$user1id\":{\"initiative\":93,\"diceRoll\":92,\"combatantName\":\"$user1id\",\"user\":\"\"},\"screw you jason\":{\"initiative\":21,\"diceRoll\":20,\"combatantName\":\"screw you jason\",\"user\":\"\"}}}".toString()
+	def initString = "{\"encounterId\": \"$eid\", \"orderedCombatants\":{\"$user1id\":{\"initiative\":93,\"diceRoll\":92,\"combatantName\":\"$user1id\",\"user\":\"\"},\"screw you jason\":{\"initiative\":21,\"diceRoll\":20,\"combatantName\":\"screw you jason\",\"user\":\"\"}}}".toString()
 		
 	def "save initiative info"() {
 		given:

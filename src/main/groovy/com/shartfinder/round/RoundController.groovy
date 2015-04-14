@@ -34,7 +34,7 @@ class RoundController {
 	@ResponseBody
 	ResponseEntity<String> initiativeCreatedTest() {
 		LOGGER.info("Initiative created called for testing")
-		redisTemplate.convertAndSend(Application.TOPIC_INITIATIVE_CREATED, '{\"encounterId\":69,\"orderedCombatants\":{\"bigman\":{\"initiative\":93,\"diceRoll\":92,\"combatantName\":\"bigman\",\"user\":\"\"},\"screw you jason\":{\"initiative\":21,\"diceRoll\":20,\"combatantName\":\"screw you jason\",\"user\":\"\"}}}'.toString())
+		redisTemplate.convertAndSend(Application.TOPIC_INITIATIVE_CREATED, '{\"encounterId\":"69AD",\"orderedCombatants\":{\"bigman\":{\"initiative\":93,\"diceRoll\":92,\"combatantName\":\"bigman\",\"user\":\"\"},\"screw you jason\":{\"initiative\":21,\"diceRoll\":20,\"combatantName\":\"screw you jason\",\"user\":\"\"}}}'.toString())
 		new ResponseEntity<String>("", HttpStatus.OK)
 	}
 	
@@ -42,7 +42,7 @@ class RoundController {
 	@ResponseBody
 	ResponseEntity<String> endTurn() {
 		LOGGER.info("End turn called for testing")
-		redisTemplate.convertAndSend(Application.TOPIC_TURN_FINISHED, '{"encounterId":69, "userId":"Jason", "combatantName":"SilverNoun"}'.toString())
+		redisTemplate.convertAndSend(Application.TOPIC_TURN_FINISHED, '{"encounterId":"69AD", "userId":"Jason", "combatantName":"SilverNoun"}'.toString())
 		new ResponseEntity<String>("", HttpStatus.OK)
 	}
 
