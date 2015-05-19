@@ -20,6 +20,7 @@ class RoundManagerSpec extends Specification {
 		def round = rm.saveRoundFromInitiativeInfo(init)
 		
 		then:
+		println round
 		round.encounterId == eid
 		round.combatantsInTurnOrder != null
 		round.combatantsInTurnOrder.get(0).combatantName == user1id
@@ -34,6 +35,7 @@ class RoundManagerSpec extends Specification {
 		def round = rm.findRoundByEncounterId(eid)
 		
 		then:
+		println round
 		round.encounterId == eid
 		round.combatantsInTurnOrder != null
 		round.combatantsInTurnOrder.get(0).combatantName == user1id	

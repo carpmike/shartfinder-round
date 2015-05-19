@@ -41,10 +41,10 @@ public class Receiver {
 	private handleInitiativeCreatedActions(String message) {
 		def round = this.roundManager.saveRoundFromInitiativeInfo(reifyJson(message))
 		// fire a round started event
-		redisTemplate.convertAndSend(Application.TOPIC_ROUND_STARTED, "{\"encounterId\":${round.encounterId},\"roundNumber\":${round.roundNumber}}".toString())
+		redisTemplate.convertAndSend(Application.TOPIC_ROUND_STARTED, "{\"encounterId\":\"${round.encounterId}\",\"roundNumber\":${round.roundNumber}}".toString())
 		// fire a turn started event
 		def combatantAndUser = roundManager.getCurrentTurnUserAndCombatant(round.encounterId)
-		redisTemplate.convertAndSend(Application.TOPIC_TURN_STARTED, "{\"encounterId\":${round.encounterId},\"userId\":\"${combatantAndUser.userId}\",\"combatantName\":\"${combatantAndUser.combatantName}\"}".toString())
+		redisTemplate.convertAndSend(Application.TOPIC_TURN_STARTED, "{\"encounterId\":\"${round.encounterId}\",\"userId\":\"${combatantAndUser.userId}\",\"combatantName\":\"${combatantAndUser.combatantName}\"}".toString())
 
 		LOGGER.info("Initiative created action")
 	}
@@ -55,11 +55,11 @@ public class Receiver {
 		def round = this.roundManager.findRoundByEncounterId(turnFinished.encounterId)
 		LOGGER.info("Next round: " + round)
 		if (round.isNewRound()) {
-			redisTemplate.convertAndSend(Application.TOPIC_ROUND_STARTED, "{\"encounterId\":${round.encounterId},\"roundNumber\":${round.roundNumber}}".toString())
+			redisTemplate.convertAndSend(Application.TOPIC_ROUND_STARTED, "{\"encounterId\":\"${round.encounterId}\",\"roundNumber\":${round.roundNumber}}".toString())
 		}
 		// then start the next turn (turn started event)
 		def combatantAndUser = roundManager.getCurrentTurnUserAndCombatant(turnFinished.encounterId)
-		redisTemplate.convertAndSend(Application.TOPIC_TURN_STARTED, "{\"encounterId\":${round.encounterId},\"userId\":\"${combatantAndUser.userId}\",\"combatantName\":\"${combatantAndUser.combatantName}\"}".toString())
+		redisTemplate.convertAndSend(Application.TOPIC_TURN_STARTED, "{\"encounterId\":\"${round.encounterId}\",\"userId\":\"${combatantAndUser.userId}\",\"combatantName\":\"${combatantAndUser.combatantName}\"}".toString())
 		LOGGER.info("Turn finished action")
 	}
 

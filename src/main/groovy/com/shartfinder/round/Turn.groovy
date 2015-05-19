@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 class Turn {
 	@Id BigInteger id
-	BigInteger encounterId
+	String encounterId
 	BigInteger characterId
 	BigInteger roundId
 }
